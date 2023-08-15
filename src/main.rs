@@ -1,4 +1,4 @@
-use std::io::{BufRead, BufReader};
+use std::io::{BufRead, BufReader, Write};
 use std::net::{TcpListener, TcpStream};
 
 fn main() {
@@ -19,5 +19,6 @@ fn handle_connection(mut stream: TcpStream) {
         .take_while(|line| !line.is_empty())
         .collect();
 
-    println!("Request: {:#?}", http_request);
+    let response = "HTTP/1.1 200 OK\r\n\r\n";
+    stream.write_all(response.as_bytes()).unwrap();
 }
